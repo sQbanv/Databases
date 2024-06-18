@@ -325,5 +325,11 @@ Funkcje potrzebne dla aplikacji do rezerwacji pokoi w naszym hotelu:
 - Pobieranie informacji o stanie hotelu w danym dniu (np. ilośc wolnych pokoi, ilośc gości, itp.)
 - Oblicznie średniej oceny hotelu na podstawie wszystkich recenzji
 - Obliczanie średniej oceny każdej katregorii na podstawie wszystkich recenzji
+- Wykaz najbardziej popularnych pokoi
+- Wykaz najbardziej popularnych form wyżywienia
+- Wyświetlenie gości którzy ocenili najwyżej w określonej kategorii
+- Wyświetlenie gości, którzy złożyli najwięcej rezerwacji
 
 ---
+
+- propozyja zmiany kolekcji `Review` dodając pole `reservation_id` oznaczające dodatkowo jakiej rezerwacji dotyczy recenzja. Szczególnie potrzebne dla pracowników, którzy chcą sparwdzić powiązanie recenzji z opinią.

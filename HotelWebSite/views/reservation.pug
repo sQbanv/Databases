@@ -1,0 +1,102 @@
+doctype html
+html(lang='pl')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+        title Tranquil Haven Hotel - Reservation
+        link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous')
+        link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css')
+        link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css')
+        
+        script.
+            function getCurrDate(days){
+                const currentDate = new Date();
+
+                currentDate.setDate(currentDate.getDate() + days);
+
+                const year = currentDate.getFullYear();
+                const month = String(currentDate.getMonth() + 1).padStart(2,'0')
+                const day = String(currentDate.getDate()).padStart(2,'0')
+
+                const formattedDate = `${year}-${month}-${day}`
+
+                return formattedDate
+            }
+
+            function getFromDate(){
+                return document.getElementById('dateFrom').value
+            }
+
+            document.addEventListener('DOMContentLoaded', async () => {
+                const dateFromInput = document.getElementById('dateFrom');
+                const dateToInput = document.getElementById('dateTo');
+
+                const maxDate = getCurrDate(365);
+
+                const setMinMaxDates = () => {
+                    const dateFrom = dateFromInput.value;
+                    const dateTo = dateToInput.value;
+
+                    dateFromInput.min = getCurrDate(0); 
+                    dateFromInput.max = dateTo; 
+
+                    dateToInput.min = dateFrom;
+                    dateToInput.max = maxDate; 
+                };
+
+                setMinMaxDates();
+
+                dateFromInput.addEventListener('change', setMinMaxDates);
+
+                dateToInput.addEventListener('change', setMinMaxDates);
+            });
+
+    body
+        nav(class='navbar navbar-expand-md bg-body-secondary')
+            div(class='container-fluid')
+                i(class='bi bi-buildings')
+                a(class='navbar-brand me-auto fs-3' href='/') Tranquil Haven Hotel
+                button(class='navbar-toggler' type='button' data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded='false' aria-label="Toggle navigation")
+                    span(class='navbar-toggler-icon')
+                div(class='collapse navbar-collapse' id='navbarNav')
+                    ul(class='navbar-nav ms-auto') 
+                        li(class='nav-item dropdown')
+                            a(class='nav-link dropdown-toggle' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false') Offer
+                            ul(class='dropdown-menu')
+                                li
+                                    a(class='dropdown-item' href='/rooms') Rooms
+                                    a(class='dropdown-item' href='/reviews') Reviews
+                                    hr(class='dropdown-divider')
+                                    a(class='dropdown-item' href='/reservationInfo') Your reservation
+                                    hr(class='dropdown-divider')
+                                    a(class='dropdown-item' href='/reservation') Reservation
+                        li(class='nav-item')
+                            a(class='dropdown-item' href='/admin') Admin Panel
+
+        main
+            h2 New reservation
+            hr
+            form(method='post' action='/reservation/guestData')
+                label(for='dateFrom') From:
+                input(type='date' id='dateFrom' name='dateFrom' class='form-control')
+                br
+                label(for='dateFrom') To:
+                input(type='date' id='dateTo' name='dateTo' class='form-control')
+                br
+                label(for='guestCount') How many guests:
+                input(type='number' id='guestCount' name='guestCount' value=2 min=1 max=5)
+                br
+                input(type='submit' value='Next')
+
+        footer  
+            div(class='bg-body-secondary')
+                div(class='row')
+                    div(class='col-md-4')
+                        p(class='text-center') dcebula@student.agh.edu.pl
+                    div(class='col-md-4')
+                    div(class='col-md-4')
+                        p(class='text-center') Dariusz Cebula 
+                            i(class='bi bi-c-circle')
+                        
+
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous') 
