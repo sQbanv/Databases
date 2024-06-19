@@ -1425,3 +1425,138 @@ router.get('/', async (req,res) => {
     res.render('rooms', {data: {rooms: rooms}})
 })
 ```
+
+## Frontend
+
+Do wyświetlania informacji na stronie skorzystałem ze schematów `pug` do których przekazuję niezbędne informację, które generowane są na stronie
+
+- przykład strony panelu admina 
+```pug
+doctype html
+html(lang='pl')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+        title Tranquil Haven Hotel - Admin Panel
+        link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous')
+        link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css')
+        link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css')
+        
+        style.
+            .roomCard{
+                border: 1px solid black;
+                padding: 0.2em;
+                margin: 0.2em;
+                max-width: 40em;
+            }
+    body
+        nav(class='navbar navbar-expand-md bg-body-secondary')
+            div(class='container-fluid')
+                i(class='bi bi-buildings')
+                a(class='navbar-brand me-auto fs-3' href='/') Tranquil Haven Hotel
+                button(class='navbar-toggler' type='button' data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded='false' aria-label="Toggle navigation")
+                    span(class='navbar-toggler-icon')
+                div(class='collapse navbar-collapse' id='navbarNav')
+                    ul(class='navbar-nav ms-auto') 
+                        li(class='nav-item dropdown')
+                            a(class='nav-link dropdown-toggle' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false') Offer
+                            ul(class='dropdown-menu')
+                                li
+                                    a(class='dropdown-item' href='/rooms') Rooms
+                                    a(class='dropdown-item' href='/reviews') Reviews
+                                    hr(class='dropdown-divider')
+                                    a(class='dropdown-item' href='/reservationInfo') Your reservation
+                                    hr(class='dropdown-divider')
+                                    a(class='dropdown-item' href='/reservation') Reservation
+                        li(class='nav-item')
+                            a(class='dropdown-item' href='/admin') Admin Panel
+
+        main
+            br
+            h1 Admin Panel: 
+            hr
+            h2 Today hotel status:
+            h3 Occupied rooms: 
+            ul
+                each room in data.todayStatus.occupiedRooms
+                    li Room number: #{room._id}
+            hr
+            h2 Today reservations that starts or ends: 
+            ul
+                each reservation in data.todayStatus.todayReservations
+                    li
+                        h4 Check-in: #{reservation.check_in} Check-out: #{reservation.check_out}
+                        h4 Rooms:
+                        ul
+                            each room in reservation.rooms
+                                li #{room}
+                        h4 Guests:
+                        ol
+                            each guest in reservation.guest_details
+                                li #{guest.first_name} #{guest.last_name}, email: #{guest.email}, tel: #{guest.phone}
+                hr
+            hr
+            h2 Modify Rooms: 
+            form(method='get' action='/admin/room')
+                input(type='submit' value='Show rooms')
+            hr
+            h2 Modify Foods:
+            form(method='get' action='/admin/food')
+                input(type='submit' value='Show foods')
+            hr
+            h2 Get Monthly reservation list:
+            form(method='get' action='/admin/reservation')
+                input(type='text' name='date' placeholder='YYYY-MM')
+                input(type='submit' value='Get reservation list')
+            hr
+            h2 Popularity List:
+            hr
+            h3 Rooms:
+            ol
+                each room in data.popularRoom
+                    li Room number: #{room.room_number}, count: #{room.count}
+            h3 Food types:
+            ol
+                each food in data.popularFood
+                    li Type: #{food.food_type}, count: #{food.count}
+            h3 Guests:
+            ol
+                each guest in data.popularGuest
+                    li #{guest.guest_info.first_name} #{guest.guest_info.last_name}, email: #{guest.guest_info.email} | count: #{guest.count}
+            hr
+            h2 Score list: 
+            hr
+            h3 Rooms:
+            ol 
+                each room in data.roomRatings
+                    li Room number: #{room.room_number}, review count: #{room.review_count}, average score: #{room.average_score}
+
+            h3 Food types: 
+            ol
+                each food in data.topFoodTypes
+                    li Type: #{food.food_type}, review count: #{food.review_count}, average score: #{food.average_score}
+            h3 Guests: 
+            ol
+                each guest in data.topGuests
+                    li #{guest.first_name} #{guest.last_name}, email: #{guest.email} | review count: #{guest.review_count}, average score: #{guest.average_score}
+
+        footer  
+            div(class='bg-body-secondary')
+                div(class='row')
+                    div(class='col-md-4')
+                        p(class='text-center') dcebula@student.agh.edu.pl
+                    div(class='col-md-4')
+                    div(class='col-md-4')
+                        p(class='text-center') Dariusz Cebula 
+                            i(class='bi bi-c-circle')
+                        
+
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous') 
+
+```
+
+- wygląd tej strony prezentuje się następująco
+
+![](img/admin_panel.png)
+
+Reszta podstron została wykonana analogicznie
