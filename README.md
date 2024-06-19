@@ -13,3 +13,7 @@ Technologia: JavaScript/Express
 Link do repozytorium: https://github.com/sQbanv/BD_2024_Dariusz_Cebula/
 
 Link do raportu: https://github.com/sQbanv/BD_2024_Dariusz_Cebula/blob/main/raport.md
+
+Aplikacja Hotelu: https://github.com/sQbanv/BD_2024_Dariusz_Cebula/tree/main/HotelWebSite
+
+Zrzut bazy danych: https://github.com/sQbanv/BD_2024_Dariusz_Cebula/tree/main/HotelDatabaseDump
