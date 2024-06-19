@@ -1,5 +1,8 @@
 import express from "express"
 import morgan from "morgan"
+import cron from "node-cron"
+
+import cancelPendingReservations from './cancelPendingReservations.js'
 
 import indexRouter from "../routes/index.js"
 import roomsRouter from "../routes/rooms.js"
@@ -14,6 +17,12 @@ import reservationInfoRouter from '../routes/reservationInfo.js'
 import reservationDetailsRouter from '../routes/reservationDetails.js'
 import adminRouter from '../routes/admin.js'  
 import adminReservationRouter from '../routes/adminReservation.js'
+import adminRoomRouter from '../routes/adminRoom.js'
+import adminFoodRouter from '../routes/adminFood.js'
+import adminRoomRemoveRouter from '../routes/adminRoomRemove.js'
+import adminFoodRemoveRouter from '../routes/adminFoodRemove.js'
+import adminRoomAddRouter from '../routes/adminRoomAdd.js'
+import adminFoodAddRouter from '../routes/adminFoodAdd.js'
 
 const app = express()
 
@@ -36,6 +45,18 @@ app.use('/reservationInfo', reservationInfoRouter)
 app.use('/reservationInfo/details', reservationDetailsRouter)
 app.use('/admin', adminRouter)
 app.use('/admin/reservation', adminReservationRouter)
+app.use('/admin/room', adminRoomRouter)
+app.use('/admin/food', adminFoodRouter)
+app.use('/admin/roomRemove', adminRoomRemoveRouter)
+app.use('/admin/foodRemove', adminFoodRemoveRouter)
+app.use('/admin/roomAdd', adminRoomAddRouter)
+app.use('/admin/foodAdd', adminFoodAddRouter)
+
+// O północy wykona pewne zadania na bazie danych
+cron.schedule("0 0 * * *", () => {
+    console.log('Running cron job to cancel pending reservations');
+    cancelPendingReservations();
+});
 
 app.listen(8000, () => {
     console.log('The server was started on port 8000');

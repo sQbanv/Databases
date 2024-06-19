@@ -41,6 +41,40 @@ html(lang='pl')
             br
             h1 Admin Panel: 
             hr
+            h2 Today hotel status:
+            h3 Occupied rooms: 
+            ul
+                each room in data.todayStatus.occupiedRooms
+                    li Room number: #{room._id}
+            hr
+            h2 Today reservations that starts or ends: 
+            ul
+                each reservation in data.todayStatus.todayReservations
+                    li
+                        h4 Check-in: #{reservation.check_in} Check-out: #{reservation.check_out}
+                        h4 Rooms:
+                        ul
+                            each room in reservation.rooms
+                                li #{room}
+                        h4 Guests:
+                        ol
+                            each guest in reservation.guest_details
+                                li #{guest.first_name} #{guest.last_name}, email: #{guest.email}, tel: #{guest.phone}
+                hr
+            hr
+            h2 Modify Rooms: 
+            form(method='get' action='/admin/room')
+                input(type='submit' value='Show rooms')
+            hr
+            h2 Modify Foods:
+            form(method='get' action='/admin/food')
+                input(type='submit' value='Show foods')
+            hr
+            h2 Get Monthly reservation list:
+            form(method='get' action='/admin/reservation')
+                input(type='text' name='date' placeholder='YYYY-MM')
+                input(type='submit' value='Get reservation list')
+            hr
             h2 Popularity List:
             hr
             h3 Rooms:
@@ -56,11 +90,21 @@ html(lang='pl')
                 each guest in data.popularGuest
                     li #{guest.guest_info.first_name} #{guest.guest_info.last_name}, email: #{guest.guest_info.email} | count: #{guest.count}
             hr
-            h2 Get Monthly reservation list:
-            form(method='get' action='/admin/reservation')
-                input(type='text' name='date' placeholder='YYYY-MM')
-                input(type='submit' value='Get reservation list')
+            h2 Score list: 
             hr
+            h3 Rooms:
+            ol 
+                each room in data.roomRatings
+                    li Room number: #{room.room_number}, review count: #{room.review_count}, average score: #{room.average_score}
+
+            h3 Food types: 
+            ol
+                each food in data.topFoodTypes
+                    li Type: #{food.food_type}, review count: #{food.review_count}, average score: #{food.average_score}
+            h3 Guests: 
+            ol
+                each guest in data.topGuests
+                    li #{guest.first_name} #{guest.last_name}, email: #{guest.email} | review count: #{guest.review_count}, average score: #{guest.average_score}
 
         footer  
             div(class='bg-body-secondary')

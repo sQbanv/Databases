@@ -54,14 +54,16 @@ router.get('/', async (req,res) => {
 })
 
 router.post('/', async (req,res) => {
-    const {topic, sort} = req.body
+    const {topic, sort, asc_desc} = req.body
+
+    const ascDesc = parseInt(asc_desc)
 
     await client.connect()
     const db = client.db("Hotel")
     const reviewCollection = db.collection('review')
 
     const matchStage = topic ? {topics: topic} : {}
-    const sortStage = sort === 'date' ? {date: -1} : {score: -1}
+    const sortStage = sort === 'date' ? {date: ascDesc} : {score: ascDesc}
 
     const summary = await reviewCollection.aggregate([
         {
